@@ -1,1 +1,1 @@
-include ':rxrecaptcha'
+include ':rxrecaptcha', ':sample'
