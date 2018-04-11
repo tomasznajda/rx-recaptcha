@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+version = '12.0.1.0'
+group = 'com.tomasznajda.rxrecaptcha'
 
 android {
     compileSdkVersion 27
@@ -7,7 +12,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
-        versionName "12.0.1.0"
+        versionName version
     }
     buildTypes {
         release {
@@ -27,4 +32,81 @@ dependencies {
     testImplementation("com.nhaarman:mockito-kotlin:1.4.0", {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     })
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId 'com.tomasznajda.rxrecaptcha'
+                artifactId 'rxrecaptcha'
+
+                name 'rx-recaptcha'
+                description 'An easy way to use SafetyNet reCAPTCHA with RxJava2'
+                url 'https://github.com/tomasznajda/rx-recaptcha'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'tomasznajda'
+                        name 'Tomasz Najda'
+                        email 'tomasz.najda@hotmail.com'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/tomasznajda/rx-recaptcha.git'
+                    developerConnection 'https://github.com/tomasznajda/rx-recaptcha.git'
+                    url 'https://github.com/tomasznajda/rx-recaptcha'
+
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    excludes = ['**/*.kt']
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'rx-recaptcha'
+        name = 'rx-recaptcha'
+        desc = 'An easy way to use SafetyNet reCAPTCHA with RxJava2'
+        websiteUrl = 'https://github.com/tomasznajda/rx-recaptcha'
+        vcsUrl = 'https://github.com/tomasznajda/rx-recaptcha.git'
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
 }
