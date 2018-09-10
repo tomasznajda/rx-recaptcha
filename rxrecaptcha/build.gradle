@@ -94,22 +94,24 @@ artifacts {
     archives sourcesJar
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    if(project.rootProject.file('local.properties').exists()) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-    configurations = ['archives']
-    override = true
-    pkg {
-        repo = 'rx-recaptcha'
-        name = 'rx-recaptcha'
-        desc = 'An easy way to use SafetyNet reCAPTCHA with RxJava2'
-        websiteUrl = 'https://github.com/tomasznajda/rx-recaptcha'
-        vcsUrl = 'https://github.com/tomasznajda/rx-recaptcha.git'
-        licenses = ["Apache-2.0"]
-        publish = true
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+
+        configurations = ['archives']
+        override = true
+        pkg {
+            repo = 'rx-recaptcha'
+            name = 'rx-recaptcha'
+            desc = 'An easy way to use SafetyNet reCAPTCHA with RxJava2'
+            websiteUrl = 'https://github.com/tomasznajda/rx-recaptcha'
+            vcsUrl = 'https://github.com/tomasznajda/rx-recaptcha.git'
+            licenses = ["Apache-2.0"]
+            publish = true
+        }
     }
 }
