@@ -30,11 +30,14 @@ import java.util.concurrent.Executor
 class ReCaptchaTest {
 
     @Mock lateinit var safetyNetClient: SafetyNetClient
+    @Mock lateinit var safetyNetProvider: SafetyNetProvider
     @InjectMocks val reCaptcha = ReCaptcha(mock())
+
     val task = ReCaptchaTaskMock()
 
     @Before
     fun setUp() {
+        whenever(safetyNetProvider.getClient(any())).doReturn(safetyNetClient)
         whenever(safetyNetClient.verifyWithRecaptcha(any())).doReturn(task)
     }
 
