@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.10'
+        kotlinVersion = '1.2.50'
         playServicesVersion = '12.0.1'
-        rxJavaVersion = '2.1.12'
+        rxJavaVersion = '2.2.2'
     }
     repositories {
         google()

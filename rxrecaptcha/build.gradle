@@ -26,12 +26,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.android.gms:play-services-safetynet:$playServicesVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:2.13.0"
+    testImplementation "org.mockito:mockito-core:2.19.1"
     testImplementation("com.nhaarman:mockito-kotlin:1.4.0", {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     })
