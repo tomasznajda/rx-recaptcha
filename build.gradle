@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.2.50'
-        playServicesVersion = '15.0.0'
+        playServicesVersion = '15.0.1'
         rxJavaVersion = '2.2.2'
     }
     repositories {
