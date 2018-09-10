@@ -130,6 +130,8 @@ class ReCaptchaTest {
         override fun isSuccessful() = true
 
         override fun isComplete() = true
+
+        override fun isCanceled() = false
     }
 
 }
