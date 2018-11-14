@@ -31,7 +31,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:2.19.1"
+    testImplementation "org.mockito:mockito-core:2.23.0"
     testImplementation("com.nhaarman:mockito-kotlin:1.4.0", {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     })
