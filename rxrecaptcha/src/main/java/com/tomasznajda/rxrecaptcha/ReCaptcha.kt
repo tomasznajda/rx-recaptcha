@@ -10,11 +10,11 @@ import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_SITEKEY
 import com.tomasznajda.rxrecaptcha.util.UNSUPPORTED_SDK_VERSION
 import io.reactivex.Single
 
-class ReCaptcha(private val context: Context) {
+class ReCaptcha {
 
     private var safetyNetProvider = SafetyNetProvider()
 
-    fun verify(siteKey: String) =
+    fun verify(context: Context, siteKey: String) =
             Single.create<String> { emitter ->
                 safetyNetProvider
                         .getClient(context)

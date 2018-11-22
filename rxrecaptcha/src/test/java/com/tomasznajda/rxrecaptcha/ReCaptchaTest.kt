@@ -31,7 +31,7 @@ class ReCaptchaTest {
 
     @Mock lateinit var safetyNetClient: SafetyNetClient
     @Mock lateinit var safetyNetProvider: SafetyNetProvider
-    @InjectMocks val reCaptcha = ReCaptcha(mock())
+    @InjectMocks val reCaptcha = ReCaptcha()
 
     val task = ReCaptchaTaskMock()
 
@@ -43,49 +43,49 @@ class ReCaptchaTest {
 
     @Test
     fun `verify successfully emits token when token is not empty`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onSuccess("token")
         observer.assertValue("token")
     }
 
     @Test
     fun `verify emits ReCaptchaEmptyTokenException when token is empty`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onSuccess("")
         observer.assertError { it is ReCaptchaEmptyTokenException }
     }
 
     @Test
     fun `verify emits ReCaptchaEmptyTokenException when token is blank`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onSuccess("   ")
         observer.assertError { it is ReCaptchaEmptyTokenException }
     }
 
     @Test
     fun `verify emits ReCaptchaInvalidKeyTypeException when key type is invalid`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onFailure(ApiException(Status(RECAPTCHA_INVALID_KEYTYPE)))
         observer.assertError { it is ReCaptchaInvalidKeyTypeException }
     }
 
     @Test
     fun `verify emits ReCaptchaInvalidPackageNameException when package name is invalid`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onFailure(ApiException(Status(RECAPTCHA_INVALID_PACKAGE_NAME)))
         observer.assertError { it is ReCaptchaInvalidPackageNameException }
     }
 
     @Test
     fun `verify emits ReCaptchaInvalidSiteKeyException when site key is invalid`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onFailure(ApiException(Status(RECAPTCHA_INVALID_SITEKEY)))
         observer.assertError { it is ReCaptchaInvalidSiteKeyException }
     }
 
     @Test
     fun `verify emits ReCaptchaUnsupportedSdkVersionException when sdk version is unsupported`() {
-        val observer = reCaptcha.verify("SiteKey").test()
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onFailure(ApiException(Status(UNSUPPORTED_SDK_VERSION)))
         observer.assertError { it is ReCaptchaUnsupportedSdkVersionException }
     }
