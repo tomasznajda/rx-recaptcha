@@ -11,13 +11,15 @@ const val YOUR_SITE_KEY = "enter your site key here"
 
 class MainActivity : AppCompatActivity() {
 
+    private val reCaptcha = ReCaptcha()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         btnReCaptcha
             .clicks()
-            .flatMapSingle { ReCaptcha(this@MainActivity).verify(YOUR_SITE_KEY) }
+            .flatMapSingle { reCaptcha.verify(this@MainActivity, YOUR_SITE_KEY) }
             .doOnNext { printToken(token = it) }
             .doOnError { printError(error = it) }
             .retry()
