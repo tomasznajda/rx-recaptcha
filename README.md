@@ -1,5 +1,5 @@
 # rx-recaptcha
-[ ![Download](https://api.bintray.com/packages/tomasznajda/rx-recaptcha/rx-recaptcha/images/download.svg?version=16.0.0.1) ](https://bintray.com/tomasznajda/rx-recaptcha/rx-recaptcha/16.0.0.1/link) [![CircleCI](https://circleci.com/gh/tomasznajda/rx-recaptcha.svg?style=svg)](https://circleci.com/gh/tomasznajda/rx-recaptcha)\
+[ ![Download](https://api.bintray.com/packages/tomasznajda/rx-recaptcha/rx-recaptcha/images/download.svg?version=16.0.0.2) ](https://bintray.com/tomasznajda/rx-recaptcha/rx-recaptcha/16.0.0.2/link) [![CircleCI](https://circleci.com/gh/tomasznajda/rx-recaptcha.svg?style=svg)](https://circleci.com/gh/tomasznajda/rx-recaptcha)\
 An easy way to use [SafetyNet reCAPTCHA](https://developer.android.com/training/safetynet/recaptcha.html) with [RxJava2](https://github.com/ReactiveX/RxJava)
 
 
@@ -11,7 +11,7 @@ To register a key pair for use with the SafetyNet reCAPTCHA API, navigate to the
 ### 2. Add dependency
 ```groovy
 dependencies {
-    implementation "com.tomasznajda.rxrecaptcha:rxrecaptcha:16.0.0.1"
+    implementation "com.tomasznajda.rxrecaptcha:rxrecaptcha:16.0.0.2"
 }
 ```
 

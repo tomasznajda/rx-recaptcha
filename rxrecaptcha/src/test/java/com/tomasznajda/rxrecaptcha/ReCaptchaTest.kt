@@ -1,6 +1,8 @@
 package com.tomasznajda.rxrecaptcha
 
 import android.app.Activity
+import com.google.android.gms.common.ConnectionResult.*
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.safetynet.SafetyNetApi
@@ -8,10 +10,7 @@ import com.google.android.gms.safetynet.SafetyNetClient
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import com.tomasznajda.rxrecaptcha.exception.*
 import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_KEYTYPE
 import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_PACKAGE_NAME
@@ -19,26 +18,23 @@ import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_SITEKEY
 import com.tomasznajda.rxrecaptcha.util.UNSUPPORTED_SDK_VERSION
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 import java.lang.Exception
 import java.util.concurrent.Executor
 
-@RunWith(MockitoJUnitRunner::class)
 class ReCaptchaTest {
 
-    @Mock lateinit var safetyNetClient: SafetyNetClient
-    @Mock lateinit var safetyNetProvider: SafetyNetProvider
-    @InjectMocks val reCaptcha = ReCaptcha()
-
+    val safetyNetProvider = mock<SafetyNetProvider>()
+    val safetyNetClient = mock<SafetyNetClient>()
+    val googleApiAvailability = mock<GoogleApiAvailability>()
     val task = ReCaptchaTaskMock()
+
+    val reCaptcha = ReCaptcha(safetyNetProvider, googleApiAvailability)
 
     @Before
     fun setUp() {
         whenever(safetyNetProvider.getClient(any())).doReturn(safetyNetClient)
         whenever(safetyNetClient.verifyWithRecaptcha(any())).doReturn(task)
+        whenever(googleApiAvailability.isGooglePlayServicesAvailable(any())).doReturn(SUCCESS)
     }
 
     @Test
@@ -46,6 +42,13 @@ class ReCaptchaTest {
         val observer = reCaptcha.verify(mock(), "SiteKey").test()
         task.onSuccess("token")
         observer.assertValue("token")
+    }
+
+    @Test
+    fun `verify emits ReCaptchaPlayServicesUnavailableException when device has no play services`() {
+        whenever(googleApiAvailability.isGooglePlayServicesAvailable(any())).doReturn(API_UNAVAILABLE)
+        val observer = reCaptcha.verify(mock(), "SiteKey").test()
+        observer.assertError { it is ReCaptchaPlayServicesUnavailableException }
     }
 
     @Test
