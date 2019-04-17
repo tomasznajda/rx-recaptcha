@@ -1,7 +1,8 @@
 package com.tomasznajda.rxrecaptcha
 
 import android.app.Activity
-import com.google.android.gms.common.ConnectionResult.*
+import com.google.android.gms.common.ConnectionResult.API_UNAVAILABLE
+import com.google.android.gms.common.ConnectionResult.SUCCESS
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
@@ -10,7 +11,10 @@ import com.google.android.gms.safetynet.SafetyNetClient
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.tomasznajda.rxrecaptcha.exception.*
 import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_KEYTYPE
 import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_PACKAGE_NAME
@@ -18,7 +22,6 @@ import com.tomasznajda.rxrecaptcha.util.RECAPTCHA_INVALID_SITEKEY
 import com.tomasznajda.rxrecaptcha.util.UNSUPPORTED_SDK_VERSION
 import org.junit.Before
 import org.junit.Test
-import java.lang.Exception
 import java.util.concurrent.Executor
 
 class ReCaptchaTest {
